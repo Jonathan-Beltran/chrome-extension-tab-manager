@@ -7,7 +7,7 @@
 <body>
     <form>
         <label for="optionsSelect">Choose an Inactivity Threshold</label>
-        <select id="optionsSelect" name="options">
+        <select id="optionsSelect" name="options" onchange="showCustomMinutesField()">
             <option value="1 Minute">1 Minute</option>
             <option value="2 Minutes">2 Minutes</option>
             <option value="3 Minutes">3 Minutes</option>
@@ -20,9 +20,10 @@
             <option value="10 Minutes">10 Minutes</option>
             <option value="Other">Custom...</option>
         </select>
-        <input type="text" id="minutesInput" style="display:none;" placeHolder="Enter Custom Minutes">
+        <label for="minutesInput">Enter Custom Minutes:</label>
+        <input type="number" id="minutesInput" style="display:none;" placeholder="Enter Custom Minutes">
         <input type="submit" value="Submit">
-        <script src="popup.js"></script>
+        <script src="options.js"></script>
     </form>
 
 </body>
