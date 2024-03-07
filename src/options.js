@@ -9,3 +9,7 @@ function showCustomMinutesField(){
     }
 }
 // you may want to add validation to the input field
+document.getElementById("optionsSelect").addEventListener("change", showCustomMinutesField);
+document.getElementById("backToPopup").addEventListener("click", function(){
+    window.location.href='popup.html';
+});

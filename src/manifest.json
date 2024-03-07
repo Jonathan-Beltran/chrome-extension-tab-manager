@@ -3,6 +3,7 @@
   "manifest_version": 3,
   "name": "Tab Manager Google Chrome Extension",
   "version": "1.0",
+  "options_page": "options.html",
   "icons": {
     "16": "images/tabs icon.png",
     "32": "images/tabs icon 2.png",
