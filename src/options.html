@@ -8,12 +8,14 @@
     <title>Options</title>
 </head>
 <body>
+    <h1>Options</h1>
     <button id="backToPopup">Back</button>
     <form>
         <br>
         <label for="optionsSelect">Choose an Inactivity Threshold</label>
         <br>
         <select id="optionsSelect" name="options" onchange="showCustomMinutesField()">
+            <option value="-1" selected>No Threshold</option>
             <option value="1">1 Minute</option>
             <option value="2">2 Minutes</option>
             <option value="3">3 Minutes</option>
@@ -24,16 +26,23 @@
             <option value="8">8 Minutes</option>
             <option value="9">9 Minutes</option>
             <option value="10">10 Minutes</option>
-            <option value="-1">No Threshold</option>
             <option value="Other">Custom...</option>
         </select>
 
         <br>
-        <label hidden for="minutesInput">Bruh</label>
+        <label hidden for="minutesInput">Enter Custom Minutes Threshold</label>
         <input type="number" id="minutesInput" style="display:none;" placeholder="Enter Custom Minutes">
         <br>
-        <input type="submit" value="Submit">
+        <label for="closeURL">Enter URLs to close:</label>
+        <br>
+        <input type="text" id="closeURL" placeholder="Enter URL">
+        <ul id="optionsUrlList"></ul>
+        <br>
+        <br>
+        <input type="button" value="Submit" id="submitButton">
         <script src="options.js"></script>
+
+
     </form>
 
 </body>

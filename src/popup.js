@@ -25,6 +25,8 @@
          tabsList.appendChild(template);
      }
 }
+
+
 document.addEventListener('DOMContentLoaded', queryTabs);
 
 document.getElementById('goToOptions').addEventListener('click', function(){

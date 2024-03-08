@@ -4,3 +4,8 @@ body {
 label{
     font-size: 15px;
 }
+.saveStatus{
+    color: green;
+    background-color: lightgrey;
+    text-align: center;
+}
