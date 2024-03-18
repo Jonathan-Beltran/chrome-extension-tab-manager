@@ -9,14 +9,15 @@ function showCustomMinutesField(){
     }
 }
 // you may want to add validation to the input field
-
 let messageVisible = false;
-function saveOptions(){
 
+
+function saveOptions(){
     if (messageVisible){
         return;
     }
     let minutesThreshold = document.getElementById("optionsSelect").value;
+    let url = document.getElementById("optionsUrlList").value;
     if (minutesThreshold === "Other"){
         minutesThreshold = document.getElementById("minutesInput").value;
     }
@@ -37,27 +38,45 @@ function saveOptions(){
                 }, 1000);
         });
     }
-}
 
+
+
+}
+let urls = [];
 function addURL(){
     const inputUrl = document.getElementById('closeURL').value;
     if (inputUrl ===''){
-        alert("Empty");
         return;
     }
     const urlList=document.getElementById('optionsUrlList');
     const newUrl = document.createElement('li');
+    urls.push(inputUrl);
     newUrl.textContent = inputUrl;
     urlList.appendChild(newUrl);
     document.getElementById('closeURL').value='';
+    chrome.storage.sync.set({
+        urls:urls
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    chrome.storage.sync.get(['urls'], function(result){
+        let urls = result.urls;
+        if (urls){
+            const listDisplay = document.getElementById('optionsUrlList');
+            urls.forEach(function(url){
+                let thisUrl = document.createElement('li');
+                thisUrl.textContent = url;
+                listDisplay.appendChild(thisUrl);
+            })
+        }
+    })
     document.getElementById('submitButton').addEventListener('click', function(){
         saveOptions();
         addURL();
     })
     document.getElementById("optionsSelect").addEventListener("change", showCustomMinutesField);
+
 });
 document.getElementById("backToPopup").addEventListener("click", function(){
     window.location.href='popup.html';
