@@ -17,7 +17,6 @@ function saveOptions(){
         return;
     }
     let minutesThreshold = document.getElementById("optionsSelect").value;
-    let url = document.getElementById("optionsUrlList").value;
     if (minutesThreshold === "Other"){
         minutesThreshold = document.getElementById("minutesInput").value;
     }
@@ -61,9 +60,9 @@ function addURL(){
 
 document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.get(['urls'], function(result){
-        let urls = result.urls;
-        if (urls){
-            const listDisplay = document.getElementById('optionsUrlList');
+        if (result.urls){
+            urls = result.urls;
+            let listDisplay = document.getElementById('optionsUrlList');
             urls.forEach(function(url){
                 let thisUrl = document.createElement('li');
                 thisUrl.textContent = url;
@@ -71,12 +70,19 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         }
     })
+
     document.getElementById('submitButton').addEventListener('click', function(){
         saveOptions();
         addURL();
     })
     document.getElementById("optionsSelect").addEventListener("change", showCustomMinutesField);
+    document.getElementById('clearUrlsButton').addEventListener('click', function(){
+        chrome.storage.sync.remove('urls', function() {
+            urls = [];
+            document.getElementById('optionsUrlList').innerHTML = '';
 
+        });
+    })
 });
 document.getElementById("backToPopup").addEventListener("click", function(){
     window.location.href='popup.html';
