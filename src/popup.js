@@ -27,7 +27,9 @@
 }
 
 
-document.addEventListener('DOMContentLoaded', queryTabs);
+document.addEventListener('DOMContentLoaded', function(){
+    queryTabs();
+});
 
 document.getElementById('goToOptions').addEventListener('click', function(){
     window.location.href='options.html';
