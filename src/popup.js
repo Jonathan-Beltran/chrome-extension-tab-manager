@@ -26,9 +26,30 @@
      }
 }
 
+async function clearTabs(){
+    const tabs = await chrome.tabs.query({});
+
+    chrome.storage.sync.get(['urls'], function(result) {
+        for (const tab of tabs){
+            for (const url of result.urls){
+                if (tab.url.includes(url)){
+                    chrome.tabs.remove(tab.id)
+                }
+            }
+
+        }
+    })
+}
+
+
+
 
 document.addEventListener('DOMContentLoaded', function(){
     queryTabs();
+    document.getElementById('clear-tabs-button').addEventListener('click', function(){
+        clearTabs();
+    });
+
 });
 
 document.getElementById('goToOptions').addEventListener('click', function(){
