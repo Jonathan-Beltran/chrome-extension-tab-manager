@@ -1,29 +1,30 @@
- async function queryTabs(){
+
+async function queryTabs(){
     const tabs = await chrome.tabs.query({});
 
-     const tabsList = document.querySelector('#tabsList')
-     for (const tab of tabs) {
-         const template = document.querySelector('#li_template').content.cloneNode(true);
-         const title = tab.title || 'New Tab';
-         let url = tab.url;
-         if(!url || url === 'chrome://newtab/') {
-             url = 'New Tab or  has no URL';
-         }
+    const tabsList = document.querySelector('#tabsList')
+    for (const tab of tabs) {
+        const template = document.querySelector('#li_template').content.cloneNode(true);
+        const title = tab.title || 'New Tab';
+        let url = tab.url;
+        if(!url || url === 'chrome://newtab/') {
+            url = 'New Tab or  has no URL';
+        }
 
-         //fill template with tabs details
-         template.querySelector('.title').textContent = title;
-         template.querySelector('.pathname').textContent = url;
+        //fill template with tabs details
+        template.querySelector('.title').textContent = title;
+        template.querySelector('.pathname').textContent = url;
 
-         if(tab.url && tab.url !== 'chrome://newtab/') {
-             template.querySelector('a').href= tab.url;
-         } else{
-             const linkElement = template.querySelector('a');
-             linkElement.removeAttribute('href');
-             linkElement.style.pointerEvents = 'none';
-             linkElement.style.color = 'grey';
-         }
-         tabsList.appendChild(template);
-     }
+        if(tab.url && tab.url !== 'chrome://newtab/') {
+            template.querySelector('a').href= tab.url;
+        } else{
+            const linkElement = template.querySelector('a');
+            linkElement.removeAttribute('href');
+            linkElement.style.pointerEvents = 'none';
+            linkElement.style.color = 'grey';
+        }
+        tabsList.appendChild(template);
+    }
 }
 
 async function clearTabs(){
@@ -33,12 +34,29 @@ async function clearTabs(){
         for (const tab of tabs){
             for (const url of result.urls){
                 if (tab.url.includes(url)){
+                    console.log("EXAMPLE TABID: " + tab.id)
                     chrome.tabs.remove(tab.id)
                 }
             }
 
         }
     })
+    //console.log(tabTimes, Array.isArray(tabTimes));
+    chrome.storage.sync.get(['tabTimesSync', 'minutesThreshold'], function(result){
+        console.log("minutesThreshold  " + result.minutesThreshold);
+        for (let tabID in result.tabTimesSync){
+            if (result.minutesThreshold !== -1 && result.tabTimesSync[tabID] > result.minutesThreshold * 60 ){
+                console.log("remove " + tabID);
+
+
+                chrome.tabs.remove(tabID * 1, function() {
+                    console.log("Removed: " + tabID);
+                });
+            }
+        }
+    });
+
+
 }
 
 

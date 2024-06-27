@@ -1,3 +1,4 @@
+
 function showCustomMinutesField(){
     const dropdown = document.getElementById("optionsSelect");
     const textInput = document.getElementById("minutesInput");
@@ -22,11 +23,12 @@ function saveOptions(){
     }
 
     if (minutesThreshold >= -1) {
+        inactivityThreshold = minutesThreshold;
         chrome.storage.sync.set({
-            minutesThreshold: minutesThreshold
-        },
-        function () {
-            messageVisible = true;
+                minutesThreshold: minutesThreshold
+            },
+            function () {
+                messageVisible = true;
                 const saveStatus = document.createElement('div');
                 saveStatus.textContent = 'Options Saved!';
                 saveStatus.className = 'saveStatus';
@@ -35,7 +37,7 @@ function saveOptions(){
                     document.body.removeChild(saveStatus);
                     messageVisible = false;
                 }, 1000);
-        });
+            });
     }
 
 
@@ -88,3 +90,4 @@ document.getElementById("backToPopup").addEventListener("click", function(){
     window.location.href='popup.html';
 });
 
+//TODO: i think the minutesThreshold is tweaking
