@@ -4,11 +4,36 @@ let inactivityThreshold = -1;
 
 function fillTabs(){
     chrome.tabs.query({}, function(tabs) {
+        tabs.sort((tab1,tab2) => tab1.id - tab2.id)
         chrome.storage.sync.get('tabTimesSync', function(result) {
             tabTimes = result.tabTimesSync || {};
             for (const tab of tabs) {
                 if (!tabTimes[tab.id]) {
                     tabTimes[tab.id] = 0; // Initialize each tab's inactivity time to 0 if not already set
+                }
+            }
+            if (tabTimes){
+                for (const id of Object.keys(tabTimes)){
+                    let low = 0
+                    let high = tabs.length - 1
+                    let mid = low + Math.floor((high - low) / 2)
+                    let found = false
+                    while (low <= high) {
+                        if (id * 1 === tabs[mid].id * 1){
+                            found = true;
+                            break;
+                        }
+                        else if (id * 1 < tabs[mid].id * 1){
+                            high = mid - 1;
+                        } else if (id * 1 > tabs[mid].id * 1){
+                            low = mid + 1;
+                        }
+                        mid = low + Math.floor((high - low) / 2)
+                    }
+
+                    if (!found){
+                        delete tabTimes[id];
+                    }
                 }
             }
             chrome.storage.sync.set({ tabTimesSync: tabTimes });
