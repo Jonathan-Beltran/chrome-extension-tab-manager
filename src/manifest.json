@@ -17,10 +17,6 @@
     "page": "options.html",
     "open_in_tabs": true
   },
-
-  "host_permissions": [
-    "*://*/*"
-  ],
   "permissions": [
     "tabs",
     "storage"

@@ -41,33 +41,31 @@ async function clearTabs(){
 
         }
     })
-    //console.log(tabTimes, Array.isArray(tabTimes));
+
     chrome.storage.sync.get(['tabTimesSync', 'minutesThreshold'], function(result){
         console.log("minutesThreshold  " + result.minutesThreshold);
         for (let tabID in result.tabTimesSync){
-            if (result.minutesThreshold !== -1 && result.tabTimesSync[tabID] > result.minutesThreshold * 60 ){
+            if (result.minutesThreshold * 1 !== -1 && result.tabTimesSync[tabID] > result.minutesThreshold * 60 ){
                 console.log("remove " + tabID);
+
+
 
 
                 chrome.tabs.remove(tabID * 1, function() {
                     console.log("Removed: " + tabID);
                 });
+
+
             }
         }
     });
-
-
 }
-
-
-
 
 document.addEventListener('DOMContentLoaded', function(){
     queryTabs();
     document.getElementById('clear-tabs-button').addEventListener('click', function(){
         clearTabs();
     });
-
 });
 
 document.getElementById('goToOptions').addEventListener('click', function(){
