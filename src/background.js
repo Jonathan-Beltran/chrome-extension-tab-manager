@@ -72,11 +72,14 @@ function updateTabs(){
                 tabTimes[tabs[0].id] = 0;
             }
         }
+
+        /*
         chrome.storage.sync.set({ tabTimesSync: tabTimes });
         chrome.storage.sync.get('tabTimesSync',function(result) {
             console.log("what?")
             console.log(result.tabTimesSync);
         });
+         */
     });
 }
 
@@ -86,7 +89,7 @@ setInterval(() => {
 }, 10000);
 setInterval(() => {
     chrome.storage.sync.get('tabTimesSync',function(result) {
-        console.log("Get tabTimesSync");
+        console.log("Get tabTimesSync every 1 second");
         console.log(result.tabTimesSync);
     });
 }, 1000);

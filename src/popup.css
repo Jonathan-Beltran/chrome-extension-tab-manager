@@ -1,3 +1,10 @@
+.header {
+    display: flex;
+    align-items: center; /* Centers items vertically in the container */
+    justify-content: space-between; /* Distributes space between and around content items */
+
+}
+
 body {
     width: 20rem;
 }
@@ -26,3 +33,48 @@ p {
 button{
     font-size: 18px;
 }
+
+
+.tooltip{
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    margin-right: 215px;
+}
+
+.tooltip .tooltiptext{
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    position: absolute;
+    z-index: 1;
+    bottom: 50%;
+    left: 100%;
+    margin-left: 10px;
+    margin-bottom: -20px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    margin-top: -5px;
+    border-width: 5px 10px 5px 0;
+    border-style: solid;
+    border-color: transparent #555 transparent transparent;
+}
+.tooltip:hover .tooltiptext{
+    visibility:visible;
+    opacity:1;
+}
+
+
+
