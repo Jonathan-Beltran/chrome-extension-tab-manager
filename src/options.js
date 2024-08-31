@@ -24,7 +24,7 @@ function saveOptions(){
 
     if (minutesThreshold >= -1) {
         inactivityThreshold = minutesThreshold;
-        chrome.storage.sync.set({
+        chrome.storage.local.set({
                 minutesThreshold: minutesThreshold
             },
             function () {
@@ -55,13 +55,13 @@ function addURL(){
     newUrl.textContent = inputUrl;
     urlList.appendChild(newUrl);
     document.getElementById('closeURL').value='';
-    chrome.storage.sync.set({
+    chrome.storage.local.set({
         urls:urls
     });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    chrome.storage.sync.get(['urls'], function(result){
+    chrome.storage.local.get(['urls'], function(result){
         if (result.urls){
             urls = result.urls;
             let listDisplay = document.getElementById('optionsUrlList');
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     document.getElementById("optionsSelect").addEventListener("change", showCustomMinutesField);
     document.getElementById('clearUrlsButton').addEventListener('click', function(){
-        chrome.storage.sync.remove('urls', function() {
+        chrome.storage.local.remove('urls', function() {
             urls = [];
             document.getElementById('optionsUrlList').innerHTML = '';
 

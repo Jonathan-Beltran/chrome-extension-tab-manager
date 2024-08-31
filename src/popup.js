@@ -30,7 +30,7 @@ async function queryTabs(){
 async function clearTabs(){
     const tabs = await chrome.tabs.query({});
 
-    chrome.storage.sync.get(['urls'], function(result) {
+    chrome.storage.local.get(['urls'], function(result) {
         for (const tab of tabs){
             for (const url of result.urls){
                 if (tab.url.includes(url)){
@@ -42,15 +42,12 @@ async function clearTabs(){
         }
     })
 
-    chrome.storage.sync.get(['tabTimesSync', 'minutesThreshold'], function(result){
+    chrome.storage.local.get(['tabTimesLocal', 'minutesThreshold'], function(result){
         console.log("minutesThreshold  " + result.minutesThreshold);
-        for (let tabID in result.tabTimesSync){
-            if (result.minutesThreshold * 1 !== -1 && result.tabTimesSync[tabID] > result.minutesThreshold * 60 ){
+        for (let tabID in result.tabTimesLocal){
+            console.log(result.tabTimesLocal[tabID] > result.minutesThreshold)
+            if (result.minutesThreshold * 1 !== -1 && result.tabTimesLocal[tabID] > result.minutesThreshold * 60){
                 console.log("remove " + tabID);
-
-
-
-
                 chrome.tabs.remove(tabID * 1, function() {
                     console.log("Removed: " + tabID);
                 });

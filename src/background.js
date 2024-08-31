@@ -5,8 +5,8 @@ let inactivityThreshold = -1;
 function fillTabs(){
     chrome.tabs.query({}, function(tabs) {
         tabs.sort((tab1,tab2) => tab1.id - tab2.id)
-        chrome.storage.sync.get('tabTimesSync', function(result) {
-            tabTimes = result.tabTimesSync || {};
+        chrome.storage.local.get('tabTimesLocal', function(result) {
+            tabTimes = result.tabTimesLocal || {};
             for (const tab of tabs) {
                 if (!tabTimes[tab.id]) {
                     tabTimes[tab.id] = 0; // Initialize each tab's inactivity time to 0 if not already set
@@ -38,13 +38,18 @@ function fillTabs(){
                     }
                 }
             }
-            chrome.storage.sync.set({ tabTimesSync: tabTimes });
+            chrome.storage.local.set({ tabTimesLocal: tabTimes });
         });
     });
 }
 chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
     delete tabTimes[tabId];
-    chrome.storage.sync.set({ tabTimesSync: tabTimes });
+    chrome.storage.local.set({ tabTimesLocal: tabTimes });
+});
+
+chrome.tabs.onCreated.addListener(function(tab){
+    tabTimes[tab.id] = 0;
+    chrome.storage.local.set({ tabTimesLocal: tabTimes });
 });
 
 
@@ -73,13 +78,13 @@ function updateTabs(){
             }
         }
 
-        /*
-        chrome.storage.sync.set({ tabTimesSync: tabTimes });
-        chrome.storage.sync.get('tabTimesSync',function(result) {
+
+        chrome.storage.local.set({ tabTimesLocal: tabTimes });
+        chrome.storage.local.get('tabTimesLocal',function(result) {
             console.log("what?")
-            console.log(result.tabTimesSync);
+            console.log(result.tabTimesLocal);
         });
-         */
+
     });
 }
 
@@ -88,11 +93,13 @@ setInterval(() => {
     updateTabs();
 }, 10000);
 setInterval(() => {
-    chrome.storage.sync.get('tabTimesSync',function(result) {
-        console.log("Get tabTimesSync every 1 second");
-        console.log(result.tabTimesSync);
+    chrome.storage.local.get('tabTimesLocal',function(result) {
+        console.log("Get tabTimesLocal every 1 second");
+        console.log(result.tabTimesLocal);
     });
 }, 1000);
+console.log("fill tabs")
 fillTabs();
 
-//TODO: make the ai aspect
+//TODO: DOes not seem to work on the other professional google account.
+// There seems to be two versions of tabTimesSync and one of them is missing tabs? The print on line 80 is the missing one
